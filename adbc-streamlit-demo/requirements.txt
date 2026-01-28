@@ -1,0 +1,4 @@
+streamlit
+adbc-driver-manager
+polars
+duckdb
