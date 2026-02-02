@@ -15,6 +15,10 @@ uv run streamlit run Start_Here.py
 
 See the [adbc-streamlit-demo README](./adbc-streamlit-demo/README.md) for detailed setup instructions.
 
+## We suggest using dbc to install your ADBC drivers
+dbc: https://columnar.tech/dbc
+dbc docs: https://docs.columnar.tech/dbc/
+
 ## About Apache ADBC
 
 Apache ADBC (Arrow Database Connectivity) is an open standard that provides cross-platform, high-performance access to analytical databases using the Arrow ecosystem. With ADBC, applications can flexibly connect and interact with a variety of database backends using a unified interface.
