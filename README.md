@@ -16,7 +16,7 @@ uv run streamlit run Start_Here.py
 See the [adbc-streamlit-demo README](./adbc-streamlit-demo/README.md) for detailed setup instructions.
 
 ## We suggest using dbc to install your ADBC drivers
-dbc: https://columnar.tech/dbc
+dbc: https://columnar.tech/dbc <br>
 dbc docs: https://docs.columnar.tech/dbc/
 
 ## About Apache ADBC
