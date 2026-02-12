@@ -1,28 +1,34 @@
+print("📦 Loading dependencies...", flush=True)
 from functions import *
-import xgboost as xgb
+from xgboost import DMatrix, train
 import pyarrow.compute as pc
 
+print("🚀 Starting model training script...", flush=True)
 ducklake_files_dir = "my_ducklake.ducklake.files"
 
 # Create ducklake table only if not already initialized
+print("🔍 Checking DuckLake initialization...", flush=True)
 if not is_ducklake_initialized(ducklake_files_dir):
-    print(f"'{ducklake_files_dir}' folder not found or empty. Creating DuckLake table...")
+    print(f"'{ducklake_files_dir}' folder not found or empty. Creating DuckLake table...", flush=True)
     create_penguins_ducklake()
 else:
-    print(f"'{ducklake_files_dir}' already exists and is not empty. Skipping DuckLake initialization.")
+    print(f"'{ducklake_files_dir}' already exists and is not empty. Skipping DuckLake initialization.", flush=True)
 
 # # Read ducklake as arrow table
+print("📖 Reading DuckLake data as Arrow table...", flush=True)
 arrow = read_penguins_ducklake()
 
 print("Arrow table schema:")
 print(arrow.schema)
 
 # Use pyarrow to create train test sets
+print("🔀 Creating train/test split...", flush=True)
 arrow_train, arrow_test = get_train_test_split(arrow)
 
 # Create DMatrix directly from arrow tables with target column
-dtrain = xgb.DMatrix(arrow_train.drop(['species_numeric']), label=arrow_train['species_numeric'])
-dtest = xgb.DMatrix(arrow_test.drop(['species_numeric']), label=arrow_test['species_numeric'])
+print("⚙️  Converting to XGBoost DMatrix format...", flush=True)
+dtrain = DMatrix(arrow_train.drop(['species_numeric']), label=arrow_train['species_numeric'])
+dtest = DMatrix(arrow_test.drop(['species_numeric']), label=arrow_test['species_numeric'])
 
 print(f"Train dataset shape: {arrow_train.num_rows} rows")
 print(f"Test dataset shape: {arrow_test.num_rows} rows")
@@ -42,16 +48,19 @@ params = {
 }
 
 # Train the model
+print("🤖 Starting model training...", flush=True)
 num_rounds = 100
 evals = [(dtrain, 'train'), (dtest, 'test')]
 evals_result = {}
-model = xgb.train(params, dtrain, num_boost_round=num_rounds, evals=evals, evals_result=evals_result, verbose_eval=10)
+model = train(params, dtrain, num_boost_round=num_rounds, evals=evals, evals_result=evals_result, verbose_eval=True)
 
 # Make predictions
+print("🎯 Making predictions...", flush=True)
 train_preds = model.predict(dtrain)
 test_preds = model.predict(dtest)
 
 # Calculate accuracy
+print("📊 Calculating accuracy...", flush=True)
 train_accuracy = (train_preds == arrow_train['species_numeric'].to_pylist()).sum() / len(train_preds)
 test_accuracy = (test_preds == arrow_test['species_numeric'].to_pylist()).sum() / len(test_preds)
 
@@ -60,5 +69,7 @@ print(f"Train Accuracy: {train_accuracy:.4f}")
 print(f"Test Accuracy: {test_accuracy:.4f}")
 
 # Save the model
+print("💾 Saving model...", flush=True)
 model.save_model('penguin_species_model.json')
-print("\nModel saved to 'penguin_species_model.json'")
+print("\nModel saved to 'penguin_species_model.json'", flush=True)
+print("✅ Script completed successfully!", flush=True)

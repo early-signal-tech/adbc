@@ -49,6 +49,9 @@ secrets.toml
 !**/package.json
 credentials.json
 gcloud_credentials.json
+# Ignore template and example documentation files
+*-templates.md
+
 
 # Database files
 *.duckdb

@@ -63,8 +63,10 @@ tmp/
 *.pkl
 *.joblib
 *.model
+*.json
 
 # Environment configuration
 .env
 .env.local
 .env.*.local
+uv.lock
