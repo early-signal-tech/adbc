@@ -2,6 +2,8 @@
 
 Machine learning pipeline using DuckDB and XGBoost for data processing and model training.
 
+<img width="1245" height="403" alt="ducklake-xgboost" src="https://github.com/user-attachments/assets/eafe1c4e-cc6c-4385-a277-ef3fe7442f71" />
+
 ## Prerequisites
 
 ### ADBC Drivers
